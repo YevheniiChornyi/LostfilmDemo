@@ -1,5 +1,7 @@
 package yevhenii.lostfilmdemo.RSS;
 
+import yevhenii.lostfilmdemo.Services.FeedService;
+
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -10,7 +12,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class RssFeedParser {
+public class RssFeedParser implements FeedService {
     private final URL url;
 
     public RssFeedParser(String feedUrl) {

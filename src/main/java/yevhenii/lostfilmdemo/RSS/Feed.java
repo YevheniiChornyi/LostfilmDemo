@@ -9,6 +9,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 public class Feed {
+
     @Override
     public String toString() {
         return "Feed{" +

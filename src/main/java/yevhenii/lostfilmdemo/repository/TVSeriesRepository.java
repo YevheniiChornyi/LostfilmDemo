@@ -1,4 +1,4 @@
-package yevhenii.lostfilmdemo.Repository;
+package yevhenii.lostfilmdemo.repository;
 
 public interface TVSeriesRepository {
 

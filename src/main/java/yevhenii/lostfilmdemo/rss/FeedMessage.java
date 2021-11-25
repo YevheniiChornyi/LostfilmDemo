@@ -1,13 +1,21 @@
-package yevhenii.lostfilmdemo.RSS;
+package yevhenii.lostfilmdemo.rss;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
 
-
-//immutable?
-@RequiredArgsConstructor
-@Getter
+@Value
+@Builder
 public class FeedMessage {
+
+    @NonNull
+    String title;
+    @NonNull
+    String description;
+    String pubDate;
+    @NonNull
+    String link;
+
     @Override
     public String toString() {
         return "FeedMessage{" +
@@ -15,11 +23,6 @@ public class FeedMessage {
                 ", description='" + description + '\'' +
                 ", pubDate='" + pubDate + '\'' +
                 ", link='" + link + '\'' +
-                '}';
+                '}' + '\n';
     }
-
-    private final String title;
-    private final String description;
-    private final String pubDate;
-    private final String link;
 }

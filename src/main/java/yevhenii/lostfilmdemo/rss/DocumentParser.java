@@ -1,6 +1,5 @@
 package yevhenii.lostfilmdemo.rss;
 
-import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,7 +46,7 @@ public class DocumentParser implements FeedService {
         String description = element.getElementsByTagName("description").item(0).getTextContent();
         String pubDate = element.getElementsByTagName("pubDate").item(0).getTextContent();
         String link = element.getElementsByTagName("link").item(0).getTextContent();
-        return new FeedMessage(title, description, pubDate, link);
+        return FeedMessage.builder().description(description).link(link).pubDate(pubDate).title(title).build();
     }
 
     @Override

@@ -1,23 +1,49 @@
 package yevhenii.lostfilmdemo.rss;
 
-import org.xml.sax.SAXException;
-import yevhenii.lostfilmdemo.services.ConvertService;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+import yevhenii.lostfilmdemo.convertors.FeedMessageConvertor;
+import yevhenii.lostfilmdemo.convertors.TVSeriesConvertor;
+import yevhenii.lostfilmdemo.entity.FeedMessage;
+import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.services.FeedService;
-import yevhenii.lostfilmdemo.services.impl.ConvertServiceImpl;
+import yevhenii.lostfilmdemo.services.impl.FeedServiceImpl;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
+//TODO use Spring utils for that, add controller to use ApplicationRunner
+@Component
+@Log4j2
+public class RssTest implements ApplicationRunner  {
+//    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+////        String url = "https://www.lostfilm.tv/rss.xml";
+////
+////        FeedService feedService = new FeedServiceImpl(new FeedMessageConvertor());
+////
+////        Converter<FeedMessage, TVSeries> convertService = new TVSeriesConvertor();
+////        // System.out.println(feedService.readFeed(url));
+////        for (FeedMessage fs :
+////                feedService.readFeed(url)) {
+////            System.out.println(convertService.convert(fs));
+////        }
+//
+//    }
 
-public class RssTest {
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        log.info("starting rss");
         String url = "https://www.lostfilm.tv/rss.xml";
-        FeedService feedService = new DocumentParser();
-        ConvertService convertService = new ConvertServiceImpl();
-       // System.out.println(feedService.readFeed(url));
-        for (FeedMessage fs:
-             feedService.readFeed(url)) {
-            System.out.println(convertService.convert(fs));
-        }
 
+        FeedService feedService = new FeedServiceImpl(new FeedMessageConvertor());
+
+        Converter<FeedMessage, TVSeries> convertService = new TVSeriesConvertor();
+        // System.out.println(feedService.readFeed(url));
+        for (FeedMessage fs :
+                feedService.readFeed(url)) {
+//            System.out.println(convertService.convert(fs));
+            log.info(convertService.convert(fs));
+        }
     }
 }
+

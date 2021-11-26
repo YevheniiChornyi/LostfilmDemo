@@ -6,7 +6,7 @@ import lombok.NonNull;
 
 @Data
 @Builder
-public class TVSeries {
+public class TVSeries{
     @NonNull
     final private String name;
     final private String russianName;

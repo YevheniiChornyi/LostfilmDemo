@@ -2,9 +2,11 @@ package yevhenii.lostfilmdemo.services;
 
 import yevhenii.lostfilmdemo.entity.TVSeries;
 
+import java.util.Optional;
+
 public interface TVSeriesService {
 
-    void add(TVSeries tvSeries);
+    void create(TVSeries tvSeries);
 
-    TVSeries findByName(String name);
+    Optional<TVSeries> findByName(String name);
 }

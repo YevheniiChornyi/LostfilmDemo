@@ -5,17 +5,19 @@ import org.springframework.transaction.annotation.Transactional;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.services.TVSeriesService;
 
+import java.util.Optional;
+
 @Service
 class TVSeriesServiceImpl implements TVSeriesService {
 
     @Transactional
     @Override
-    public void add(TVSeries tvSeries) {
+    public void create(TVSeries tvSeries) {
 
     }
 
     @Override
-    public TVSeries findByName(String name) {
+    public Optional<TVSeries> findByName(String name) {
 
         return null;
     }

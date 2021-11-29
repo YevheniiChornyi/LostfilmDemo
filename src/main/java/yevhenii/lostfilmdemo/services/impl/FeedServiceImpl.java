@@ -16,8 +16,8 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -25,21 +25,22 @@ import java.util.stream.IntStream;
 public class FeedServiceImpl implements FeedService {
 
     private final Converter<Element, FeedMessage> converter;
+
     @Override
     public List<FeedMessage> readFeed(String url) {
 
         try {
-            List<FeedMessage> messages = new ArrayList<>();
             NodeList nodeList = readDocument(url).getElementsByTagName("item");
-            IntStream.range(0, nodeList.getLength())
+            return IntStream.range(0, nodeList.getLength())
                     .mapToObj(nodeList::item)
-                    .filter((a)-> a.getNodeType() == Node.ELEMENT_NODE)
-                    .forEach((a)-> messages.add(converter.convert((Element) a)));
-            return messages;
+                    .filter((a) -> a.getNodeType() == Node.ELEMENT_NODE)
+                    .map((a) -> converter.convert((Element) a))
+                    .collect(Collectors.toList());
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new IllegalArgumentException("XML file access error");
+            throw new IllegalArgumentException("XML file access error", e);
         }
     }
+
     private Document readDocument(String url) throws ParserConfigurationException, IOException, SAXException {
 
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();

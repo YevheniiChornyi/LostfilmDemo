@@ -11,47 +11,29 @@ import java.util.regex.Pattern;
 @Component
 public class TVSeriesConvertor implements Converter<FeedMessage, TVSeries> {
 
-    //TODO instead of all this methods which are parsing String use regex expression with group for each value you wanna to extract
-    private String getName(String regexp, String input){
-
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(input);
-        StringBuilder result = new StringBuilder("");
-        while (true){
-            if (matcher.find()) {
-                result.append(matcher.group())
-                        .append(" ");
-            } else {
-                break;
-            }
-        }
-        return result.toString();
-    }
-
-    private String toRegex(String regexp, String input) {
-
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(input);
-        if(matcher.find())
-            return matcher.group(1);
-        throw new IllegalArgumentException("not informative link");
-    }
+    private final static Pattern TITLE_PATTERN = Pattern.compile("(.+)\\((.+)\\)(.+)(\\(S0.+)");
+    private final static Pattern LINK_PATTERN = Pattern.compile("season_(\\d+)/episode_(\\d+)");
+    private final static Pattern DESCRIPTION_PATTERN = Pattern.compile("(static.+jpg)");
 
     @Override
     public TVSeries convert(FeedMessage feedMessage) {
-        final String name = getName("([a-zA-Z.]{2,})", feedMessage.getTitle());
-        String russianName = getName("([а-яА-Я.]+)", feedMessage.getTitle());
-        int season = Integer.parseInt(toRegex("season_(\\d)", feedMessage.getLink()));
-        int episode = Integer.parseInt(toRegex("episode_(\\d)", feedMessage.getLink()));
-        String link = feedMessage.getLink();
-        String lastUpdate = feedMessage.getPubDate();
-        String image = toRegex("(static.+jpg)",feedMessage.getDescription());
+        Matcher matcher = TITLE_PATTERN.matcher(feedMessage.getTitle());
+        if (!matcher.find()) throw new IllegalArgumentException("Wrong title format");
+        final String name = matcher.group(2);
+        String russianName = matcher.group(1) + matcher.group(3);
+        matcher = LINK_PATTERN.matcher(feedMessage.getLink());
+        if (!matcher.find()) throw new IllegalArgumentException("Wrong link format");
+        int season = Integer.parseInt(matcher.group(1));
+        int episode = Integer.parseInt(matcher.group(2));
+        matcher = DESCRIPTION_PATTERN.matcher(feedMessage.getDescription());
+        if (!matcher.find()) throw new IllegalArgumentException("Wrong description format");
+        String image = matcher.group();
 
         return TVSeries.builder()
                 .episode(episode)
                 .image(image)
-                .lastUpdate(lastUpdate)
-                .link(link)
+                .lastUpdate(feedMessage.getPubDate())
+                .link(feedMessage.getLink())
                 .name(name)
                 .season(season)
                 .russianName(russianName)

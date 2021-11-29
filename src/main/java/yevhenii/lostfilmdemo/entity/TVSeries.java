@@ -9,6 +9,7 @@ import lombok.NonNull;
 public class TVSeries {
     @NonNull
     final private String name;
+    @NonNull
     final private String russianName;
     private String image;
     private int season;

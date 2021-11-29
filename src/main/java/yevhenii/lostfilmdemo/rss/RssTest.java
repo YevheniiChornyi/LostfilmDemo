@@ -7,7 +7,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import yevhenii.lostfilmdemo.convertors.TVSeriesConvertor;
 import yevhenii.lostfilmdemo.entity.FeedMessage;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.services.FeedService;
@@ -18,13 +17,14 @@ import yevhenii.lostfilmdemo.services.FeedService;
 public class RssTest implements ApplicationRunner {
 
     private final FeedService feedService;
+    private final Converter<FeedMessage, TVSeries> convertService;
+
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("starting rss");
         String url = "https://www.lostfilm.tv/rss.xml";
 
-        Converter<FeedMessage, TVSeries> convertService = new TVSeriesConvertor();
         for (FeedMessage fs :
                 feedService.readFeed(url)) {
             log.info(convertService.convert(fs));

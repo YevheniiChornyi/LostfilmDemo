@@ -17,26 +17,46 @@ public class TVSeriesConvertor implements Converter<FeedMessage, TVSeries> {
 
     @Override
     public TVSeries convert(FeedMessage feedMessage) {
-        Matcher matcher = TITLE_PATTERN.matcher(feedMessage.getTitle());
-        if (!matcher.find()) throw new IllegalArgumentException("Wrong title format");
-        final String name = matcher.group(2);
-        String russianName = matcher.group(1) + matcher.group(3);
-        matcher = LINK_PATTERN.matcher(feedMessage.getLink());
-        if (!matcher.find()) throw new IllegalArgumentException("Wrong link format");
-        int season = Integer.parseInt(matcher.group(1));
-        int episode = Integer.parseInt(matcher.group(2));
-        matcher = DESCRIPTION_PATTERN.matcher(feedMessage.getDescription());
-        if (!matcher.find()) throw new IllegalArgumentException("Wrong description format");
-        String image = matcher.group();
 
         return TVSeries.builder()
-                .episode(episode)
-                .image(image)
+                .russianName(getRussianName(feedMessage.getTitle()))
+                .name(getName(feedMessage.getTitle()))
+                .image(getImage(feedMessage.getDescription()))
                 .lastUpdate(feedMessage.getPubDate())
                 .link(feedMessage.getLink())
-                .name(name)
-                .season(season)
-                .russianName(russianName)
+                .season(getSeason(feedMessage.getLink()))
+                .episode(getEpisode(feedMessage.getLink()))
                 .build();
     }
+
+    private String getName(String input) {
+        Matcher matcher = TITLE_PATTERN.matcher(input);
+        if (!matcher.find()) throw new IllegalArgumentException("Wrong title format");
+        return matcher.group(2);
+    }
+
+    private String getRussianName(String input) {
+        Matcher matcher = TITLE_PATTERN.matcher(input);
+        if (!matcher.find()) throw new IllegalArgumentException("Wrong title format");
+        return matcher.group(1) + matcher.group(3);
+    }
+
+    private int getSeason(String input) {
+        Matcher LinkMatcher = LINK_PATTERN.matcher(input);
+        if (!LinkMatcher.find()) throw new IllegalArgumentException("Wrong link format");
+        return Integer.parseInt(LinkMatcher.group(1));
+    }
+
+    private int getEpisode(String input) {
+        Matcher LinkMatcher = LINK_PATTERN.matcher(input);
+        if (!LinkMatcher.find()) throw new IllegalArgumentException("Wrong link format");
+        return Integer.parseInt(LinkMatcher.group(2));
+    }
+
+    private String getImage(String input) {
+        Matcher descriptionMatcher = DESCRIPTION_PATTERN.matcher(input);
+        if (!descriptionMatcher.find()) throw new IllegalArgumentException("Wrong description format");
+        return descriptionMatcher.group();
+    }
+
 }

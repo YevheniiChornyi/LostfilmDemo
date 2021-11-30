@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LostfilmDemoApplication {
 
     public static void main(String[] args) {
-//        log.info("started");
+
         SpringApplication.run(LostfilmDemoApplication.class, args);
     }
 }

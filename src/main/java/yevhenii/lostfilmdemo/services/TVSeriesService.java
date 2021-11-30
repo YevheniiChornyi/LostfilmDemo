@@ -3,13 +3,12 @@ package yevhenii.lostfilmdemo.services;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TVSeriesService {
 
-    void create(TVSeries tvSeries);
+    void save(TVSeries tvSeries);
 
-    Optional<TVSeries> findByName(String name);
+    TVSeries find(String link);
 
-    Optional<List<TVSeries>> findALl();
+    List<TVSeries> findAll();
 }

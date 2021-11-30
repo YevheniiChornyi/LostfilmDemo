@@ -1,7 +1,6 @@
 package yevhenii.lostfilmdemo.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class FeedServiceImpl implements FeedService {
 
     private final Converter<Element, FeedMessage> converter;

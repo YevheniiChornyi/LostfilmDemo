@@ -27,7 +27,7 @@ public class RssTest implements ApplicationRunner {
 
         for (FeedMessage fs :
                 feedService.readFeed(url)) {
-            log.info(convertService.convert(fs));
+            log.debug(convertService.convert(fs));
         }
     }
 }

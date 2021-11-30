@@ -14,6 +14,7 @@ public class TVSeries {
     private String image;
     private int season;
     private int episode;
+    @NonNull
     private String link;
     private String lastUpdate;
 

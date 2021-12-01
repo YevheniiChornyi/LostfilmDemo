@@ -8,6 +8,8 @@ public interface TVSeriesService {
 
     void save(TVSeries tvSeries);
 
+    boolean delete (String link);
+
     TVSeries find(String link);
 
     List<TVSeries> findAll();

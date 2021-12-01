@@ -23,9 +23,15 @@ class TVSeriesServiceImpl implements TVSeriesService {
     @Transactional
     public void save(TVSeries tvSeries) {
 
-        if(isExist(tvSeries.getLink()))
+        if (isExist(tvSeries.getLink()))
             schedulerRepository.update(createRecord(tvSeries), tvSeries.getLink());
         else schedulerRepository.create(createRecord(tvSeries));
+    }
+
+    @Override
+    public boolean delete(String link) {
+        schedulerRepository.delete(link);
+        return isExist(link);
     }
 
     @Override
@@ -60,6 +66,7 @@ class TVSeriesServiceImpl implements TVSeriesService {
                         .build()
                 ;
     }
+
     private TvSeriesRecord createRecord(TVSeries tvSeries) {
 
         TvSeriesRecord record = new TvSeriesRecord();

@@ -42,8 +42,8 @@ public class JooqTVSeriesRepository implements JooqRepository<String> {
     public List<Record> readAll() {
 
         return Stream.of(
-                        jooq.selectFrom(TV_SERIES)
-                                .fetchInto(TvSeriesRecord.class))
+                jooq.selectFrom(TV_SERIES)
+                        .fetchInto(TvSeriesRecord.class))
                 .map(a -> (TvSeriesRecord) a)
                 .collect(Collectors.toList());
     }
@@ -60,7 +60,6 @@ public class JooqTVSeriesRepository implements JooqRepository<String> {
     @Override
     public void delete(String link) {
 
-        if (read(link).isEmpty()) throw new IllegalArgumentException("cant find to delete: " + link);
         jooq.delete(TV_SERIES)
                 .where(TV_SERIES.LINK.equal(link))
                 .execute();

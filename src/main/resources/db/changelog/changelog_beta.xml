@@ -6,21 +6,32 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
 <changeSet author="Yevhenii" id="1">
-<createTable tableName="TVSeries">
+<createTable tableName="tv_series">
+    <!--
+    table name not according to proper naming conversions, in your case it should be tv_series
+    -->
     <column autoIncrement="true" name="id" type="BIGINT">
         <constraints primaryKey="true"/>
     </column>
     <column name="name" type="VARCHAR(50)">
-        <constraints nullable="false" unique = "true"/>
+        <constraints nullable="false"/>
     </column>
     <column name="russian_name" type="VARCHAR(75)">
-        <constraints nullable="false" unique = "true"/>
+        <constraints nullable="false"/>
     </column>
+    <!--
+    why do you think it should be unique? Don't you think there is a change to get 2 same episode names for different tv shows?
+    -->
     <column name="image" type="VARCHAR(100)"/>
-    <column name="link" type="VARCHAR(150)"/>
+    <column name="link" type="VARCHAR(150)">
+            <constraints nullable="false" unique="true"/>
+    </column>
     <column name="lastUpdate" type="VARCHAR(150)"/>
     <column name="season" type="INT"/>
     <column name="episode" type="INT"/>
 </createTable>
+    <modifySql dbms="mysql">
+        <append value="ENGINE=INNODB CHARSET=UTF8 COLLATE utf8_unicode_ci"/>
+    </modifySql>
 </changeSet>
         </databaseChangeLog>

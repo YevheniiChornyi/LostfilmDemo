@@ -30,5 +30,8 @@
     <column name="season" type="INT"/>
     <column name="episode" type="INT"/>
 </createTable>
+    <modifySql dbms="mysql">
+        <append value="ENGINE=INNODB CHARSET=UTF8 COLLATE utf8_unicode_ci"/>
+    </modifySql>
 </changeSet>
         </databaseChangeLog>

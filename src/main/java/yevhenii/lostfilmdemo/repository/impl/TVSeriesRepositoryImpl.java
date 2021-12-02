@@ -4,18 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import yevhenii.lostfilmdemo.jooq.generated.tables.records.TvSeriesRecord;
-import yevhenii.lostfilmdemo.repository.JooqRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static yevhenii.lostfilmdemo.jooq.generated.tables.TvSeries.TV_SERIES;
 
 @org.springframework.stereotype.Repository
 @RequiredArgsConstructor
-public class JooqTVSeriesRepository implements JooqRepository<String> {
+public class TVSeriesRepositoryImpl implements yevhenii.lostfilmdemo.repository.TVSeriesRepository {
 
     private final DSLContext jooq;
 
@@ -39,21 +36,20 @@ public class JooqTVSeriesRepository implements JooqRepository<String> {
     }
 
     @Override
-    public List<Record> readAll() {
+    public List<TvSeriesRecord> readAll() {
 
-        return Stream.of(
+        return
                 jooq.selectFrom(TV_SERIES)
-                        .fetchInto(TvSeriesRecord.class))
-                .map(a -> (TvSeriesRecord) a)
-                .collect(Collectors.toList());
+                        .fetchInto(TvSeriesRecord.class);
     }
 
     @Override
-    public void update(Record record, String key) {
+    public void update(TvSeriesRecord record) {
 
         jooq.update(TV_SERIES)
-                .set(record)
-                .where(TV_SERIES.LINK.equal(key))
+                .set(TV_SERIES.LASTUPDATE, record.getLastupdate())
+                .set(TV_SERIES.IMAGE, record.getImage())
+                .where(TV_SERIES.LINK.equal(record.getLink()))
                 .execute();
     }
 

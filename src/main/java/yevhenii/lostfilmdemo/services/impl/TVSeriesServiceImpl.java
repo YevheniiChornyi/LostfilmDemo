@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.Record;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yevhenii.lostfilmdemo.convertors.TVRecordConvertor;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.jooq.generated.tables.records.TvSeriesRecord;
-import yevhenii.lostfilmdemo.repository.JooqRepository;
+import yevhenii.lostfilmdemo.repository.impl.TVSeriesRepositoryImpl;
 import yevhenii.lostfilmdemo.services.TVSeriesService;
 
 import java.util.List;
@@ -17,68 +18,56 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class TVSeriesServiceImpl implements TVSeriesService {
 
-    private final JooqRepository<String> schedulerRepository;
+    private final TVSeriesRepositoryImpl tvSeriesRepository;
+    private final TVRecordConvertor convertor;
 
     @Override
     @Transactional
-    public void save(TVSeries tvSeries) {
+    public Record save(TVSeries tvSeries) {
 
-        if (isExist(tvSeries.getLink()))
-            schedulerRepository.update(createRecord(tvSeries), tvSeries.getLink());
-        else schedulerRepository.create(createRecord(tvSeries));
+//        return tvSeriesRepository.read(tvSeries.getLink())
+//                .map((a) -> this.update(tvSeries)).get();
+//              .orElse(this.create(tvSeries));
+        //SQL error
+
+        if (tvSeriesRepository.read(tvSeries.getLink()).isEmpty()) this.create(tvSeries);
+        else this.update(tvSeries);
+        return convertor.createRecord(tvSeries);
     }
 
     @Override
-    public boolean delete(String link) {
-        schedulerRepository.delete(link);
-        return isExist(link);
+    public void delete(String link) {
+
+        tvSeriesRepository.delete(link);
     }
 
     @Override
-    public TVSeries find(String link) {
-        Optional<Record> optional = schedulerRepository.read(link);
-        if (optional.isEmpty()) throw new IllegalArgumentException("Cant find series by link: " + link);
-        return convertQueryResultToModelObject((TvSeriesRecord) optional.get());
+    public Optional<TVSeries> find(String link) {
+
+        return tvSeriesRepository.read(link)
+                .map(a -> convertor.convert((TvSeriesRecord) a));
     }
 
     @Override
     public List<TVSeries> findAll() {
-        return schedulerRepository.readAll()
+
+        return tvSeriesRepository.readAll()
                 .stream()
-                .map((a) -> convertQueryResultToModelObject((TvSeriesRecord) a))
+                .map((a) -> convertor.convert((TvSeriesRecord) a))
                 .collect(Collectors.toList());
     }
 
-    private boolean isExist(String link) {
+    private void create(TVSeries tvSeries) {
 
-        return schedulerRepository.read(link).isPresent();
+        tvSeriesRepository.create(convertor.createRecord(tvSeries));
+        convertor.createRecord(tvSeries);
     }
 
-    private TVSeries convertQueryResultToModelObject(TvSeriesRecord queryResult) {
-        return
-                TVSeries.builder()
-                        .name(queryResult.getName())
-                        .russianName(queryResult.getRussianName())
-                        .link(queryResult.getLink())
-                        .image(queryResult.getImage())
-                        .episode(queryResult.getEpisode())
-                        .season(queryResult.getSeason())
-                        .build()
-                ;
+    private void update(TVSeries tvSeries) {
+
+        tvSeriesRepository.update(convertor.createRecord(tvSeries));
+        convertor.createRecord(tvSeries);
     }
 
-    private TvSeriesRecord createRecord(TVSeries tvSeries) {
 
-        TvSeriesRecord record = new TvSeriesRecord();
-
-        record.setImage(tvSeries.getImage());
-        record.setEpisode(tvSeries.getEpisode());
-        record.setSeason(tvSeries.getSeason());
-        record.setName(tvSeries.getName());
-        record.setRussianName(tvSeries.getRussianName());
-        record.setLink(tvSeries.getLink());
-        record.setLastupdate(tvSeries.getLastUpdate());
-
-        return record;
-    }
 }

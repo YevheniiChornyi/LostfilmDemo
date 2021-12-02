@@ -1,16 +1,18 @@
 package yevhenii.lostfilmdemo.services;
 
+import org.jooq.Record;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TVSeriesService {
 
-    void save(TVSeries tvSeries);
+    Record save(TVSeries tvSeries);
 
-    boolean delete (String link);
+    void delete(String link);
 
-    TVSeries find(String link);
+    Optional<TVSeries> find(String link);
 
     List<TVSeries> findAll();
 }

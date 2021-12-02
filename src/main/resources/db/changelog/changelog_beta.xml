@@ -34,4 +34,7 @@
         <append value="ENGINE=INNODB CHARSET=UTF8 COLLATE utf8_unicode_ci"/>
     </modifySql>
 </changeSet>
+    <changeSet author="Yevhenii" id="2">
+        <sqlFile dbms="mysql" path="src/main/resources/quartz.sql" />
+    </changeSet>
         </databaseChangeLog>

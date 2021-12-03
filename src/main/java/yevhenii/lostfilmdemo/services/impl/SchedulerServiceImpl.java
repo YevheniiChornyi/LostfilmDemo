@@ -19,7 +19,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     public void start() throws SchedulerException {
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-        scheduler.scheduleJob(this.getTrigger(getJobDetail()));
+        scheduler.scheduleJob(this.getTrigger(getJobDetail()));//Exception
         scheduler.start();
     }
 

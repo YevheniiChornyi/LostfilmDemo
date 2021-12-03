@@ -35,6 +35,6 @@
     </modifySql>
 </changeSet>
     <changeSet author="Yevhenii" id="2">
-        <sqlFile dbms="mysql" path="src/main/resources/quartz.sql" />
+        <sqlFile dbms="mysql" path="db/changelog/quartz.sql" />
     </changeSet>
         </databaseChangeLog>

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-class TVSeriesServiceImpl implements TVSeriesService {
+public class TVSeriesServiceImpl implements TVSeriesService {
 
     private final TVSeriesRepositoryImpl tvSeriesRepository;
     private final TVRecordConvertor convertor;
@@ -24,11 +24,6 @@ class TVSeriesServiceImpl implements TVSeriesService {
     @Override
     @Transactional
     public Record save(TVSeries tvSeries) {
-
-//        return tvSeriesRepository.read(tvSeries.getLink())
-//                .map((a) -> this.update(tvSeries)).get();
-//              .orElse(this.create(tvSeries));
-        //SQL error
 
         if (tvSeriesRepository.read(tvSeries.getLink()).isEmpty()) this.create(tvSeries);
         else this.update(tvSeries);

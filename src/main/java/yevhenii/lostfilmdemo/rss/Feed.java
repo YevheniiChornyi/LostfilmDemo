@@ -3,9 +3,6 @@ package yevhenii.lostfilmdemo.rss;
 import lombok.Builder;
 import lombok.Value;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Value
 @Builder
 public class Feed {

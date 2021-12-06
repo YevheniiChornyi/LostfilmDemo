@@ -1,7 +1,7 @@
 package yevhenii.lostfilmdemo.quartz;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -11,16 +11,16 @@ import yevhenii.lostfilmdemo.convertors.TVSeriesConvertor;
 import yevhenii.lostfilmdemo.services.FeedService;
 import yevhenii.lostfilmdemo.services.TVSeriesService;
 
-@Log4j2
+@Slf4j
 @Component
-@RequiredArgsConstructor//(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class LostfilmRssJob implements Job {
 
     private final FeedService feedService;
     private final TVSeriesConvertor convertService;
     private final TVSeriesService seriesService;
-    @Value("${tvSeries.url:https://www.lostfilm.tv/rss.xml}")
-    String url;
+    @Value("${lostfilm.rss.url}")
+    private final String url;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {

@@ -1,25 +1,20 @@
 package yevhenii.lostfilmdemo.rss;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import yevhenii.lostfilmdemo.services.SchedulerService;
 
+@Slf4j
 @Component
-@Log4j2
 @RequiredArgsConstructor
-public class RssTest implements ApplicationRunner {
-
-    private final SchedulerService service;
+public class RssRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("starting rss test");
-        //TODO integrating test
-        service.start();
 
+        log.info("starting rss test");
     }
 }
 

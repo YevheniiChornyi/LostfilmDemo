@@ -1,6 +1,7 @@
 package yevhenii.lostfilmdemo.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FeedServiceImpl implements FeedService {
@@ -28,6 +30,7 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public List<FeedMessage> readFeed(String url) {
 
+        log.info("reading feed");
         try {
             NodeList nodeList = readDocument(url).getElementsByTagName("item");
             return IntStream.range(0, nodeList.getLength())

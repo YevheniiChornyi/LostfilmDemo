@@ -1,6 +1,7 @@
 package yevhenii.lostfilmdemo.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jooq.Record;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +15,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-class TVSeriesServiceImpl implements TVSeriesService {
+public class TVSeriesServiceImpl implements TVSeriesService {
 
     private final TVSeriesRepositoryImpl tvSeriesRepository;
     private final TVRecordConvertor convertor;
@@ -24,11 +26,6 @@ class TVSeriesServiceImpl implements TVSeriesService {
     @Override
     @Transactional
     public Record save(TVSeries tvSeries) {
-
-//        return tvSeriesRepository.read(tvSeries.getLink())
-//                .map((a) -> this.update(tvSeries)).get();
-//              .orElse(this.create(tvSeries));
-        //SQL error
 
         if (tvSeriesRepository.read(tvSeries.getLink()).isEmpty()) this.create(tvSeries);
         else this.update(tvSeries);

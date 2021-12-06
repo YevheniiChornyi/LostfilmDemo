@@ -14,7 +14,7 @@ public interface TVSeriesRepository {
 
     public List<TvSeriesRecord> readAll();
 
-     void update(TvSeriesRecord record);
+    void update(TvSeriesRecord record);
 
     public void delete(String key);
 

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 @Component
 public class TVSeriesConvertor implements Converter<FeedMessage, TVSeries> {
 
-    private final static Pattern TITLE_PATTERN = Pattern.compile("(.+)\\((.+)\\)(.+)(\\(S0.+)");
+    private final static Pattern TITLE_PATTERN = Pattern.compile("([^A-Za-z]+)\\(([^А-Яа-я]+)\\)([^A-Za-z]+)(\\(S\\d.+)");
     private final static Pattern LINK_PATTERN = Pattern.compile("season_(\\d+)/episode_(\\d+)");
     private final static Pattern DESCRIPTION_PATTERN = Pattern.compile("(static.+jpg)");
 

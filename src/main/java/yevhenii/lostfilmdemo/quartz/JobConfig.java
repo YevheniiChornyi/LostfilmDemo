@@ -29,8 +29,8 @@ public class JobConfig {
                 .withIdentity(new TriggerKey("lostfilmTrigger", Scheduler.DEFAULT_GROUP))
                 .withDescription("checking lostfilm url every n time")
                 .withSchedule(simpleSchedule()
-//                        .withIntervalInSeconds(20)
-                        .withIntervalInHours(1)
+                        .withIntervalInSeconds(20)
+//                        .withIntervalInHours(1)
                         .repeatForever())
                 .startNow()
                 .build();

@@ -19,7 +19,7 @@ public class RssRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         log.info("starting rss test");
-        alertSender.send("lostfilmTvSeries", "hello");
+//        alertSender.send("lostfilmTvSeries", "hello");
     }
 }
 

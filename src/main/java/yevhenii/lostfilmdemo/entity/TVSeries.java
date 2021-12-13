@@ -8,14 +8,20 @@ import lombok.NonNull;
 @Builder
 public class TVSeries {
     @NonNull
-    final private String name;
+    private final String name;
     @NonNull
-    final private String russianName;
+    private final String russianName;
     private String image;
-    private int season;
-    private int episode;
+    private final int season;
+    private final int episode;
     @NonNull
-    private String link;
+    private final String link;
     private String lastUpdate;
+    //IMDB
+    private String plot;
+    private String imdbTitle;
+    private int year;
+    private float imdbRating;
+
 
 }

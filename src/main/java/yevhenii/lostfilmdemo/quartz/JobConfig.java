@@ -30,7 +30,20 @@ public class JobConfig {
                 .withDescription("checking lostfilm url every n time")
                 .withSchedule(simpleSchedule()
                         .withIntervalInSeconds(20)
-//                        .withIntervalInHours(1)
+                        .repeatForever())
+                .startNow()
+                .build();
+    }
+
+    @Bean
+    public Trigger getHourTrigger(JobDetail job) {
+        log.info("creating trigger");
+        return TriggerBuilder.newTrigger()
+                .forJob(job)
+                .withIdentity(new TriggerKey("lostfilmHourTrigger", Scheduler.DEFAULT_GROUP))
+                .withDescription("checking lostfilm url every n time")
+                .withSchedule(simpleSchedule()
+                        .withIntervalInHours(1)
                         .repeatForever())
                 .startNow()
                 .build();

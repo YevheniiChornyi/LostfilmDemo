@@ -18,10 +18,5 @@ public class TVSeries {
     private final String link;
     private String lastUpdate;
     //IMDB
-    private String plot;
-    private String imdbTitle;
-    private int year;
-    private float imdbRating;
-
-
+    private final ImdbEpisodes imdbSeries = new ImdbEpisodes();
 }

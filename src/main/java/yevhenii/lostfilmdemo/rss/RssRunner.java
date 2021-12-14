@@ -6,7 +6,7 @@ import org.quartz.Scheduler;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import yevhenii.lostfilmdemo.imdb.ImdbHolderClient;
+import yevhenii.lostfilmdemo.controllers.ImdbHolderClient;
 import yevhenii.lostfilmdemo.kafka.AlertSender;
 
 @Slf4j
@@ -25,8 +25,10 @@ public class RssRunner implements ApplicationRunner {
 //        scheduled.pauseTrigger(TriggerKey.triggerKey("lostfilmTrigger"));
 //        scheduled.resumeTrigger(TriggerKey.triggerKey("lostfilmTrigger"));
         alertSender.send("lostfilmTvSeries", "hello");
+        log.info(client.getSeason("tt0411008",1).toString());
+        log.info(client.getSeries("lost 2004").toString());
         log.info("alarm\nalarm\nalarm\nalarm\nalarm\nalarm\nalarm\nalarm\nalarm\nalarm\n");
-        log.info(String.valueOf(client.getId("lost")));
-    }
+
+   }
 }
 

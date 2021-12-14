@@ -8,7 +8,7 @@ import yevhenii.lostfilmdemo.jooq.generated.tables.records.TvSeriesRecord;
 @Component
 public class TVRecordConvertor implements Converter<TvSeriesRecord, TVSeries> {
 
-
+//TODO update imdb
     @Override
     public TVSeries convert(TvSeriesRecord queryResult) {
         return

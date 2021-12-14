@@ -30,7 +30,7 @@ task generateJooq {
                             inputSchema 'lostfilm'
                             outputSchemaToDefault true
                             includeIndexes false
-                            includes 'TVSeries'
+                            includes 'tv_series'
                             forcedTypes() {
                                 forcedType() {
                                     name 'BOOLEAN'

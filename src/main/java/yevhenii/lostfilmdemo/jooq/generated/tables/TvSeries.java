@@ -29,7 +29,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TvSeries extends TableImpl<TvSeriesRecord> {
 
-    private static final long serialVersionUID = -1848135432;
+    private static final long serialVersionUID = 1129458477;
 
     /**
      * The reference instance of <code>tv_series</code>
@@ -83,6 +83,26 @@ public class TvSeries extends TableImpl<TvSeriesRecord> {
      * The column <code>tv_series.episode</code>.
      */
     public final TableField<TvSeriesRecord, Integer> EPISODE = createField("episode", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>tv_series.title</code>.
+     */
+    public final TableField<TvSeriesRecord, String> TITLE = createField("title", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>tv_series.year</code>.
+     */
+    public final TableField<TvSeriesRecord, Integer> YEAR = createField("year", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>tv_series.plot</code>.
+     */
+    public final TableField<TvSeriesRecord, String> PLOT = createField("plot", org.jooq.impl.SQLDataType.VARCHAR(2555), this, "");
+
+    /**
+     * The column <code>tv_series.imDbRating</code>.
+     */
+    public final TableField<TvSeriesRecord, Double> IMDBRATING = createField("imDbRating", org.jooq.impl.SQLDataType.FLOAT, this, "");
 
     /**
      * Create a <code>tv_series</code> table reference

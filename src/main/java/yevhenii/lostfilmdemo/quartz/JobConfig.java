@@ -41,7 +41,7 @@ public class JobConfig {
         return TriggerBuilder.newTrigger()
                 .forJob(job)
                 .withIdentity(new TriggerKey("lostfilmHourTrigger", Scheduler.DEFAULT_GROUP))
-                .withDescription("checking lostfilm url every n time")
+                .withDescription("checking lostfilm url every hour")
                 .withSchedule(simpleSchedule()
                         .withIntervalInHours(1)
                         .repeatForever())

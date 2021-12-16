@@ -9,6 +9,7 @@ import yevhenii.lostfilmdemo.entity.ImdbEpisodesDTO;
 public interface ImdbClient {
 
     @GetMapping()
-    ImdbEpisodesDTO getEpisode(@RequestParam("apikey") String apiKey, @RequestParam("t") String title, @RequestParam("Season") int season, @RequestParam("Episode") int episode);
+    ImdbEpisodesDTO getEpisode(@RequestParam("apikey") String apiKey, @RequestParam("t") String title,
+                               @RequestParam("Season") int season, @RequestParam("Episode") int episode);
 }
 

@@ -18,5 +18,5 @@ public class TVSeries {
     private final String link;
     private String lastUpdate;
     //IMDB
-    private ImdbEpisode imdbEpisode;
+    private ImdbEpisodesDTO imdbEpisode;
 }

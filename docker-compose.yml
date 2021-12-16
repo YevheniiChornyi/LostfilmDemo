@@ -25,7 +25,6 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     logging:
       driver: none
-
   kafka:
     container_name: app_kafka
     image: confluentinc/cp-kafka:5.3.1
@@ -42,7 +41,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
-      KAFKA_TOOLS_LOG4J_LOGLEVEL: ERROR
+      KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
+      KAFKA_TOOLS_LOG4J_LOGLEVEL: INFO
     logging:
       driver: none

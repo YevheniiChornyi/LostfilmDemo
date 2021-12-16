@@ -31,4 +31,20 @@
     <changeSet author="Yevhenii" id="2">
         <sqlFile dbms="mysql" path="db/changelog/quartz.sql" />
     </changeSet>
+    <changeSet id="Yevhenii" author="3">
+        <addColumn schemaName= "lostfilm"
+                   tableName="tv_series" >
+            <column name="title"
+                    type="varchar(255)"/>
+            <column name="year"
+                    type="INT" >
+            </column>
+            <column name="plot"
+                    type="varchar(2555)" >
+            </column>
+            <column name="imDbRating"
+                    type="FLOAT" >
+            </column>
+        </addColumn>
+    </changeSet>
         </databaseChangeLog>

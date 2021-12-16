@@ -2,12 +2,13 @@ package yevhenii.lostfilmdemo.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jooq.Record;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yevhenii.lostfilmdemo.convertors.TVRecordConvertor;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.jooq.generated.tables.records.TvSeriesRecord;
+import yevhenii.lostfilmdemo.kafka.TVSeriesSender;
 import yevhenii.lostfilmdemo.repository.impl.TVSeriesRepositoryImpl;
 import yevhenii.lostfilmdemo.services.TVSeriesService;
 
@@ -22,14 +23,17 @@ public class TVSeriesServiceImpl implements TVSeriesService {
 
     private final TVSeriesRepositoryImpl tvSeriesRepository;
     private final TVRecordConvertor convertor;
+    private final TVSeriesSender sender;
+    @Value("${lostfilm.topic}")
+    private final String topic;
+
 
     @Override
     @Transactional
-    public Record save(TVSeries tvSeries) {
+    public void save(TVSeries tvSeries) {
 
         if (tvSeriesRepository.read(tvSeries.getLink()).isEmpty()) this.create(tvSeries);
         else this.update(tvSeries);
-        return convertor.createRecord(tvSeries);
     }
 
     @Override
@@ -57,13 +61,14 @@ public class TVSeriesServiceImpl implements TVSeriesService {
     private void create(TVSeries tvSeries) {
 
         tvSeriesRepository.create(convertor.createRecord(tvSeries));
-        convertor.createRecord(tvSeries);
+        sender.send(topic, tvSeries);
     }
 
+    //TODO kafka event idk what for
     private void update(TVSeries tvSeries) {
 
-        tvSeriesRepository.update(convertor.createRecord(tvSeries));
-        convertor.createRecord(tvSeries);
+        sender.send(topic, tvSeries);
+//        tvSeriesRepository.update(convertor.createRecord(tvSeries));
     }
 
 

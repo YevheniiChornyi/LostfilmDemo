@@ -49,7 +49,7 @@ dependencies {
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
     testImplementation "org.testcontainers:testcontainers"
     testImplementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    testImplementation'org.testcontainers:mysql:1.16.2' //idc how autoversion that
+    testImplementation 'org.testcontainers:mysql:1.16.2'
 }
 
 dependencyManagement {

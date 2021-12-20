@@ -16,9 +16,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @WireMockTest
-@AutoConfigureWireMock
-@SpringBootTest(classes = LostfilmDemoApplication.class)
 @ActiveProfiles("test")
+@SpringBootTest(classes = LostfilmDemoApplication.class)
+@AutoConfigureWireMock
 class FeedServiceImplTest {
 
     @Autowired

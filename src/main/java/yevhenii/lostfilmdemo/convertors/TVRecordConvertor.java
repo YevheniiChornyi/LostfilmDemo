@@ -13,6 +13,12 @@ public class TVRecordConvertor implements Converter<TvSeriesRecord, TVSeries> {
 
     @Override
     public TVSeries convert(TvSeriesRecord queryResult) {
+        if(queryResult.getTitle() == null) queryResult.setTitle("N/A");
+        if (queryResult.getPlot()==null) queryResult.setPlot("N/A");
+        if (queryResult.getYear()==null) queryResult.setYear(0);
+        if (queryResult.getImdbrating()==null) queryResult.setImdbrating(.0);
+
+
         return
                 TVSeries.builder()
                         .name(queryResult.getName())

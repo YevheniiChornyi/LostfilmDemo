@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.test.context.ActiveProfiles;
 import yevhenii.lostfilmdemo.LostfilmDemoApplication;
 import yevhenii.lostfilmdemo.entity.FeedMessage;
 import yevhenii.lostfilmdemo.services.FeedService;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @WireMockTest
 @AutoConfigureWireMock
 @SpringBootTest(classes = LostfilmDemoApplication.class)
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 class FeedServiceImplTest {
 
     @Autowired

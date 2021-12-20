@@ -16,7 +16,7 @@ services:
       - "8089:8089"
     image: "wiremock/wiremock"
     command: --port 8089
-#    Placing one (and only one) of slf4j-nop.jar slf4j-simple.jar, slf4j-log4j12.jar, slf4j-jdk14.jar or logback-classic.jar on the class path should solve the problem.
+  #    Placing one (and only one) of slf4j-nop.jar slf4j-simple.jar, slf4j-log4j12.jar, slf4j-jdk14.jar or logback-classic.jar on the class path should solve the problem.
   zookeeper:
     container_name: app_zookeeper
     image: confluentinc/cp-zookeeper:5.3.1

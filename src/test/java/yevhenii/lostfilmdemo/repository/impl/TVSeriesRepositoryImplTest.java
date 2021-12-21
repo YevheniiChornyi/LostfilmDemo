@@ -71,9 +71,10 @@ class TVSeriesRepositoryImplTest {
 
         repository.create(recordConvertor.createRecord(seriesList.get(0)));
         TVSeries tvSeries = recordConvertor.convert((TvSeriesRecord) repository.read(seriesList.get(0).getLink()).get());
-        if (tvSeries != null) {
-            tvSeries.setImdbEpisode(null);
-        }
+
+        assert tvSeries != null;
+        tvSeries.setImdbEpisode(null);
+
         assertThat(tvSeries).isEqualTo(seriesList.get(0));
     }
 

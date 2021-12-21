@@ -23,14 +23,20 @@ public class TVSeriesReader {
 
     @KafkaListener(topics = {"${lostfilm.topic}"})
     public void receive(TVSeries record) {
-        log.info("received: {}", record.toString());
+        log.debug("received: {}", record.toString());
         repository.update(convertor.createRecord(createOmdbPart(record)));
     }
 
     private TVSeries createOmdbPart(TVSeries tvSeries) {
 
         ImdbEpisodesDTO imdbSeries = imdbClient.getEpisode(apiKey, tvSeries.getName(), tvSeries.getSeason(), tvSeries.getEpisode());
-        log.info(imdbSeries.toString());
+        log.debug(imdbSeries.toString());
+        try {
+            if (Integer.parseInt(imdbSeries.getYear()) < 2010)
+                imdbSeries = imdbClient.getEpisode(apiKey, tvSeries.getName() + " 2021", tvSeries.getSeason(), tvSeries.getEpisode());
+            ;
+        } catch (NumberFormatException ignored) {
+        }
         if (imdbSeries.getImdbID() != null) {
             tvSeries.setImdbEpisode(imdbSeries);
             return tvSeries;
@@ -39,5 +45,4 @@ public class TVSeriesReader {
         return tvSeries;
 
     }
-    //TODO Caused by: org.apache.kafka.common.errors.TimeoutException: Topic lostfilmTvSeries not present in metadata after 60000 ms.
 }

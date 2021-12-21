@@ -47,8 +47,6 @@ public class TVSeriesRepositoryImpl implements yevhenii.lostfilmdemo.repository.
     public void update(TvSeriesRecord record) {
 
         jooq.update(TV_SERIES)
-//                .set(TV_SERIES.LASTUPDATE, record.getLastupdate())
-//                .set(TV_SERIES.IMAGE, record.getImage())
                 .set(record)
                 .where(TV_SERIES.LINK.equal(record.getLink()))
                 .execute();

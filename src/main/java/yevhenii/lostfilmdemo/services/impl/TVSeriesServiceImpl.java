@@ -64,11 +64,9 @@ public class TVSeriesServiceImpl implements TVSeriesService {
         sender.send(topic, tvSeries);
     }
 
-    //TODO kafka event idk what for
     private void update(TVSeries tvSeries) {
 
         sender.send(topic, tvSeries);
-//        tvSeriesRepository.update(convertor.createRecord(tvSeries));
     }
 
 

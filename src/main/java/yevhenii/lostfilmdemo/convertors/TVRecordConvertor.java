@@ -1,13 +1,13 @@
 package yevhenii.lostfilmdemo.convertors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import yevhenii.lostfilmdemo.entity.ImdbEpisodesDTO;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.jooq.generated.tables.records.TvSeriesRecord;
 
-import java.util.Objects;
-
+@Slf4j
 @Component
 public class TVRecordConvertor implements Converter<TvSeriesRecord, TVSeries> {
 
@@ -51,12 +51,28 @@ public class TVRecordConvertor implements Converter<TvSeriesRecord, TVSeries> {
         record.setLastupdate(tvSeries.getLastUpdate());
         if (tvSeries.getImdbEpisode() == null) return record;
         record.setTitle(tvSeries.getImdbEpisode().getTitle());
-        if (!Objects.equals(tvSeries.getImdbEpisode().getYear(), "N/A"))
-            record.setYear(Integer.parseInt(tvSeries.getImdbEpisode().getYear()));
+        record.setYear(getYear(tvSeries));
         record.setPlot(tvSeries.getImdbEpisode().getPlot());
-        if (!Objects.equals(tvSeries.getImdbEpisode().getImdbRating(), "N/A"))
-            record.setImdbrating(Double.parseDouble(tvSeries.getImdbEpisode().getImdbRating()));
+        record.setImdbrating(getImdbRating(tvSeries));
 
         return record;
+    }
+
+    private int getYear(TVSeries tvSeries) {
+        try {
+            return Integer.parseInt(tvSeries.getImdbEpisode().getYear());
+        } catch (NumberFormatException e) {
+            log.debug(e.getMessage());
+        }
+        return 0;
+    }
+
+    private double getImdbRating(TVSeries tvSeries) {
+        try {
+            return Double.parseDouble(tvSeries.getImdbEpisode().getImdbRating());
+        } catch (NumberFormatException e) {
+            log.debug(e.getMessage());
+        }
+        return .0;
     }
 }

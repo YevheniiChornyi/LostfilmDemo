@@ -1,5 +1,6 @@
 package yevhenii.lostfilmdemo.convertors;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,8 +32,8 @@ class TVSeriesConvertorTest {
         assertEquals(tvSeries.getEpisode(), 4);
         assertEquals(tvSeries.getSeason(), 15);
         assertEquals(tvSeries.getImage(), "static.lostfilm.top/Images/125/Posters/image.jpg");
-        assertEquals(tvSeries.getName(), "It's Always Sunny in Philadelphia");
-        assertEquals(tvSeries.getRussianName(), "Всегда солнечно . Шайка заменяет Ди макакой. ");
+        Assertions.assertThat(tvSeries.getName()).contains("It's Always Sunny in Philadelphia");
+        Assertions.assertThat(tvSeries.getRussianName()).contains("Всегда солнечно").contains("Шайка заменяет Ди макакой");
         assertEquals(tvSeries.getLink(), message0.getLink());
         assertEquals(tvSeries.getLastUpdate(), message0.getPubDate());
     }

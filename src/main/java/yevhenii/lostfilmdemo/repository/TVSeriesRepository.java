@@ -8,14 +8,14 @@ import java.util.Optional;
 
 public interface TVSeriesRepository {
 
-    public void create(Record record);
+    void create(Record record);
 
-    public Optional<Record> read(String key);
+    Optional<Record> read(String key);
 
-    public List<TvSeriesRecord> readAll();
+    List<TvSeriesRecord> readAll();
 
     void update(TvSeriesRecord record);
 
-    public void delete(String key);
+    void delete(String key);
 
 }

@@ -15,7 +15,7 @@ public class TVSeriesSender {
 
     public void send(String topic, TVSeries payload) {
 
-        log.info("sending payload: {} to topic called {}", payload, topic);
+        log.debug("sending payload: {} to topic called {}", payload, topic);
         kafkaTemplate.send(topic, payload);
     }
 }

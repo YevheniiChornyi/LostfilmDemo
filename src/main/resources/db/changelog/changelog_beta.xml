@@ -5,46 +5,41 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-<changeSet author="Yevhenii" id="1">
-<createTable tableName="tv_series">
-    <column autoIncrement="true" name="id" type="BIGINT">
-        <constraints primaryKey="true"/>
-    </column>
-    <column name="name" type="VARCHAR(50)">
-        <constraints nullable="false"/>
-    </column>
-    <column name="russian_name" type="VARCHAR(75)">
-        <constraints nullable="false"/>
-    </column>
-    <column name="image" type="VARCHAR(100)"/>
-    <column name="link" type="VARCHAR(150)">
-            <constraints nullable="false" unique="true"/>
-    </column>
-    <column name="lastUpdate" type="VARCHAR(150)"/>
-    <column name="season" type="INT"/>
-    <column name="episode" type="INT"/>
-</createTable>
-    <modifySql dbms="mysql">
-        <append value="ENGINE=INNODB CHARSET=UTF8 COLLATE utf8_unicode_ci"/>
-    </modifySql>
-</changeSet>
-    <changeSet author="Yevhenii" id="2">
-        <sqlFile dbms="mysql" path="db/changelog/quartz.sql" />
-    </changeSet>
-    <changeSet id="Yevhenii" author="3">
-        <addColumn schemaName= "lostfilm"
-                   tableName="tv_series" >
+    <changeSet author="Yevhenii" id="1">
+        <createTable tableName="tv_series">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="russian_name" type="VARCHAR(75)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image" type="VARCHAR(100)"/>
+            <column name="link" type="VARCHAR(150)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="lastUpdate" type="VARCHAR(150)"/>
+            <column name="season" type="INT"/>
+            <column name="episode" type="INT"/>
             <column name="title"
                     type="varchar(255)"/>
             <column name="year"
-                    type="INT" >
+                    type="INT">
             </column>
             <column name="plot"
-                    type="varchar(2555)" >
+                    type="varchar(2555)">
             </column>
             <column name="imDbRating"
-                    type="FLOAT" >
+                    type="FLOAT">
             </column>
-        </addColumn>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value="ENGINE=INNODB CHARSET=UTF8 COLLATE utf8_unicode_ci"/>
+        </modifySql>
     </changeSet>
-        </databaseChangeLog>
+    <changeSet author="Yevhenii" id="2">
+        <sqlFile dbms="mysql" path="db/changelog/quartz.sql"/>
+    </changeSet>
+</databaseChangeLog>

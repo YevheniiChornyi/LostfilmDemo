@@ -2,10 +2,11 @@ package yevhenii.lostfilmdemo.quartz;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.CronScheduleBuilder.cronSchedule;
 
 @Slf4j
 @Configuration
@@ -22,30 +23,15 @@ public class JobConfig {
     }
 
     @Bean
-    public Trigger getTrigger(JobDetail job) {
-        log.info("creating trigger");
+    public Trigger getTrigger(JobDetail job, @Value("${spring.quartz.cron.default}") String cron) {
+        log.info("creating cron trigger");
         return TriggerBuilder.newTrigger()
                 .forJob(job)
-                .withIdentity(new TriggerKey("lostfilmTrigger", Scheduler.DEFAULT_GROUP))
-                .withDescription("checking lostfilm url every n time")
-                .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(20)
-                        .repeatForever())
+                .withIdentity(new TriggerKey("lostfilmCronTrigger", Scheduler.DEFAULT_GROUP))
+                .withDescription("checking lostfilm url every cron time")
+                .withSchedule(cronSchedule(cron).withMisfireHandlingInstructionFireAndProceed())
                 .startNow()
                 .build();
     }
 
-    @Bean
-    public Trigger getHourTrigger(JobDetail job) {
-        log.info("creating trigger");
-        return TriggerBuilder.newTrigger()
-                .forJob(job)
-                .withIdentity(new TriggerKey("lostfilmHourTrigger", Scheduler.DEFAULT_GROUP))
-                .withDescription("checking lostfilm url every hour")
-                .withSchedule(simpleSchedule()
-                        .withIntervalInHours(1)
-                        .repeatForever())
-                .startNow()
-                .build();
-    }
 }

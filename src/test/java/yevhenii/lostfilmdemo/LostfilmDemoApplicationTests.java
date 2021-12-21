@@ -7,8 +7,6 @@ import yevhenii.lostfilmdemo.repository.TVSeriesRepository;
 import yevhenii.lostfilmdemo.services.FeedService;
 import yevhenii.lostfilmdemo.services.TVSeriesService;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @SpringBootTest
 class LostfilmDemoApplicationTests {
 
@@ -22,9 +20,6 @@ class LostfilmDemoApplicationTests {
     @Test
     void contextLoads() {
 
-        assertThat(service).isNotNull();
-        assertThat(repository).isNotNull();
-        assertThat(feedService).isNotNull();
     }
 
 }

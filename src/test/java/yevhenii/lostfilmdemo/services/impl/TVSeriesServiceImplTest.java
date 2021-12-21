@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import yevhenii.lostfilmdemo.convertors.TVRecordConvertor;
 import yevhenii.lostfilmdemo.entity.TVSeries;
@@ -28,7 +27,7 @@ class TVSeriesServiceImplTest {
     TVSeriesRepositoryImpl repository;
     @InjectMocks
     TVSeriesServiceImpl service;
-    @Spy
+    @Mock
     TVRecordConvertor convertor;
     @Mock
     TVSeriesSender sender;
@@ -37,6 +36,7 @@ class TVSeriesServiceImplTest {
 
     @BeforeAll
     static void init() {
+
         series = TVSeries.builder()
                 .lastUpdate("update").episode(1)
                 .image("image").russianName("rname")
@@ -49,11 +49,11 @@ class TVSeriesServiceImplTest {
 
         doNothing().when(repository).create(isA(Record.class));
         doReturn(Optional.empty()).when(repository).read(isA(String.class));
-
+        doReturn(new TvSeriesRecord()).when(convertor).createRecord(any(TVSeries.class));
         doNothing().when(sender).send(any(), isA(TVSeries.class));
 
         service.save(series);
-        verify(repository).create(convertor.createRecord(series));
+        verify(repository).create(any(TvSeriesRecord.class));
         verify(sender).send(any(), eq(series));
 
     }
@@ -61,9 +61,7 @@ class TVSeriesServiceImplTest {
     @Test
     void saveException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            service.save(TVSeries.builder().build());
-        });
+        Assertions.assertThrows(NullPointerException.class, () -> service.save(TVSeries.builder().build()));
     }
 
     @Test

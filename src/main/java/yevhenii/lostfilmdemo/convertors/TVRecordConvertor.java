@@ -18,7 +18,6 @@ public class TVRecordConvertor implements Converter<TvSeriesRecord, TVSeries> {
         if (queryResult.getYear() == null) queryResult.setYear(0);
         if (queryResult.getImdbrating() == null) queryResult.setImdbrating(.0);
 
-
         return
                 TVSeries.builder()
                         .name(queryResult.getName())
@@ -62,7 +61,8 @@ public class TVRecordConvertor implements Converter<TvSeriesRecord, TVSeries> {
         try {
             return Integer.parseInt(tvSeries.getImdbEpisode().getYear());
         } catch (NumberFormatException e) {
-            log.debug(e.getMessage());
+//            log.error("No year found for:" + tvSeries.getName(),e);
+            log.error("No year found for:" + tvSeries.getName());
         }
         return 0;
     }
@@ -71,7 +71,8 @@ public class TVRecordConvertor implements Converter<TvSeriesRecord, TVSeries> {
         try {
             return Double.parseDouble(tvSeries.getImdbEpisode().getImdbRating());
         } catch (NumberFormatException e) {
-            log.debug(e.getMessage());
+//            log.error("No rating found for:" + tvSeries.getName(), e); // this is not informative, always the same
+            log.error("No rating found for:" + tvSeries.getName());
         }
         return .0;
     }

@@ -34,7 +34,9 @@ public class TVSeriesReader {
         try {
             if (Integer.parseInt(imdbSeries.getYear()) < 2010)
                 imdbSeries = imdbClient.getEpisode(apiKey, tvSeries.getName() + " 2021", tvSeries.getSeason(), tvSeries.getEpisode());
-        } catch (NumberFormatException ignored) {
+        } catch (NumberFormatException e) {
+//            log.error("No year found for: " + tvSeries.getName(), e);
+            log.error("No year found for: " + tvSeries.getName());
         }
         if (imdbSeries.getImdbID() != null) {
             tvSeries.setImdbEpisode(imdbSeries);

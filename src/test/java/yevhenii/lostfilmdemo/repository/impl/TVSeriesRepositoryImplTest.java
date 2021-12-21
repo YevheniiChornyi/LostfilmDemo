@@ -1,6 +1,7 @@
 package yevhenii.lostfilmdemo.repository.impl;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import org.jooq.DSLContext;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,7 +31,9 @@ class TVSeriesRepositoryImplTest {
     @Autowired
     private TVSeriesRepositoryImpl repository;
     @Autowired
-    TVRecordConvertor recordConvertor;
+    private TVRecordConvertor recordConvertor;
+    @Autowired
+    private DSLContext context;
 
     private static final List<TVSeries> seriesList = new ArrayList<>();
 
@@ -52,18 +55,12 @@ class TVSeriesRepositoryImplTest {
         seriesList.add(TVSeries.builder().link("link7").season(7).name("name7").russianName("rname7").image("image7").episode(31).lastUpdate("7").build());
         seriesList.add(TVSeries.builder().link("link8").season(8).name("name8").russianName("rname8").image("image8").episode(12).lastUpdate("8").build());
         seriesList.add(TVSeries.builder().link("link9").season(9).name("name9").russianName("rname9").image("image9").episode(188).lastUpdate("9").build());
-        seriesList.add(TVSeries.builder().link("link10").season(10).name("name10").russianName("rname10").image("image10").episode(41).lastUpdate("10").build());
-        seriesList.add(TVSeries.builder().link("link11").season(11).name("name11").russianName("rname11").image("image11").episode(15).lastUpdate("11").build());
-        seriesList.add(TVSeries.builder().link("link12").season(12).name("name12").russianName("rname12").image("image12").episode(18).lastUpdate("12").build());
-        seriesList.add(TVSeries.builder().link("link13").season(13).name("name13").russianName("rname13").image("image13").episode(15).lastUpdate("13").build());
-        seriesList.add(TVSeries.builder().link("link14").season(14).name("name14").russianName("rname14").image("image14").episode(14).lastUpdate("14").build());
-        seriesList.add(TVSeries.builder().link("link15").season(15).name("name15").russianName("rname15").image("image15").episode(18).lastUpdate("15").build());
 
     }
 
     @AfterEach
     void cleanUp() {
-        repository.readAll().forEach(a -> repository.delete(a.getLink()));
+        context.truncate("tv_series").execute();
     }
 
     @Test
@@ -71,8 +68,6 @@ class TVSeriesRepositoryImplTest {
 
         repository.create(recordConvertor.createRecord(seriesList.get(0)));
         TVSeries tvSeries = recordConvertor.convert((TvSeriesRecord) repository.read(seriesList.get(0).getLink()).get());
-
-        assert tvSeries != null;
         tvSeries.setImdbEpisode(null);
 
         assertThat(tvSeries).isEqualTo(seriesList.get(0));

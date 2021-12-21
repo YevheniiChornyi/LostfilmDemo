@@ -3,6 +3,7 @@ package yevhenii.lostfilmdemo.services.impl;
 import org.jooq.Record;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,13 +25,14 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class TVSeriesServiceImplTest {
     @Mock
-    TVSeriesRepositoryImpl repository;
+    private TVSeriesRepositoryImpl repository;
+    @Mock
+    private TVRecordConvertor convertor;
+    @Mock
+    private TVSeriesSender sender;
+    private final String topic = "testTopic";
     @InjectMocks
-    TVSeriesServiceImpl service;
-    @Mock
-    TVRecordConvertor convertor;
-    @Mock
-    TVSeriesSender sender;
+    private TVSeriesServiceImpl service;
 
     private static TVSeries series;
 
@@ -43,6 +45,10 @@ class TVSeriesServiceImplTest {
                 .name("name").season(2)
                 .link("link").build();
     }
+    @BeforeEach
+    void initEach(){
+        service = new TVSeriesServiceImpl(repository,convertor,sender,topic);
+    }
 
     @Test
     void save() {
@@ -50,11 +56,11 @@ class TVSeriesServiceImplTest {
         doNothing().when(repository).create(isA(Record.class));
         doReturn(Optional.empty()).when(repository).read(isA(String.class));
         doReturn(new TvSeriesRecord()).when(convertor).createRecord(any(TVSeries.class));
-        doNothing().when(sender).send(any(), isA(TVSeries.class));
+        doNothing().when(sender).send(eq(topic), isA(TVSeries.class));
 
         service.save(series);
-        verify(repository).create(any(TvSeriesRecord.class));
-        verify(sender).send(any(), eq(series));
+        verify(repository).create(new TvSeriesRecord());
+        verify(sender).send(eq(topic), eq(series));
 
     }
 
@@ -70,8 +76,8 @@ class TVSeriesServiceImplTest {
         doReturn(Optional.of(series)).when(repository).read(isA(String.class));
         service.save(series);
         verify(repository).read(series.getLink());
-        verify(repository, never()).create(convertor.createRecord(series));
-        verify(sender).send(any(), eq(series));
+        verify(repository, never()).create(new TvSeriesRecord());
+        verify(sender).send(eq(topic), eq(series));
     }
 
     @Test

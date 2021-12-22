@@ -11,6 +11,8 @@ import yevhenii.lostfilmdemo.entity.ImdbEpisodesDTO;
 import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.repository.TVSeriesRepository;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -33,9 +35,10 @@ public class TVSeriesReader {
         log.debug(imdbSeries.toString());
         try {
             if (Integer.parseInt(imdbSeries.getYear()) < 2010)
-                imdbSeries = imdbClient.getEpisode(apiKey, tvSeries.getName() + " 2021", tvSeries.getSeason(), tvSeries.getEpisode());
+                imdbSeries = imdbClient.getEpisode(apiKey, tvSeries.getName() + " " +
+                        LocalDateTime.now().getYear(), tvSeries.getSeason(), tvSeries.getEpisode());
+
         } catch (NumberFormatException e) {
-//            log.error("No year found for: " + tvSeries.getName(), e);
             log.error("No year found for: " + tvSeries.getName());
         }
         if (imdbSeries.getImdbID() != null) {

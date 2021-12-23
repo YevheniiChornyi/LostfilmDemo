@@ -1,6 +1,5 @@
 package yevhenii.lostfilmdemo.services.impl;
 
-import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,10 +13,9 @@ import java.util.List;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@WireMockTest
 @ActiveProfiles("test")
 @SpringBootTest
-@AutoConfigureWireMock(port = 30308)
+@AutoConfigureWireMock
 class FeedServiceImplTest {
 
     @Autowired
@@ -27,7 +25,7 @@ class FeedServiceImplTest {
     @Test
     void readFeedTest() {
 
-        String url = "http://localhost:30308/www.lostfilm.tv/rss.xml";
+        String url = "http://localhost:8080/www.lostfilm.tv/rss.xml";
         String stubUrl = "/www.lostfilm.tv/rss.xml";
 
         stubFor(get(urlEqualTo(stubUrl))

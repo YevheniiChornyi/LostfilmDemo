@@ -41,12 +41,12 @@ public class TVSeriesSteps {
             .withPassword("root2021");
 
     @Given("I go mock tv series sites")
-    public void iGoMockTvSeriesSites()  {
-        lostfilmStub();
+    public void iGoMockTvSeriesSites() {
+        wiremockStub();
     }
 
     @When("I go to find new series")
-    public void iGoToLostfilmRss() throws SchedulerException, InterruptedException{
+    public void iGoToLostfilmRss() throws SchedulerException, InterruptedException {
         scheduler.triggerJob(new JobKey("lostfilm_job", Scheduler.DEFAULT_GROUP));
         Thread.sleep(20000);
     }
@@ -57,22 +57,21 @@ public class TVSeriesSteps {
     }
 
 
-
-
     @And("put tvSeries into db:")
     public void putTvSeriesIntoDb(List<TVSeries> seriesList) {
         AtomicInteger count = new AtomicInteger();
         repository.readAll().stream()
                 .map(convertor::convert)
-                .peek(a-> a.setImdbEpisode(null))
-                .forEach(a->assertThat(a)
+                .peek(a -> a.setImdbEpisode(null))
+                .forEach(a -> assertThat(a)
                         .isEqualTo(seriesList.get(count.getAndIncrement())));
 
     }
 
     @And("send message, that we should find info from imdb and also put updated tvSeries to db")
     public void sendMessageThatWeShouldFindInfoFromImdbAndAlsoPutUpdatedTvSeriesToDb() {
-        repository.readAll().stream().map(convertor::convert).forEach(a-> assertThat(a.getImdbEpisode()).isNotNull());
+        verify(getRequestedFor(urlMatching("/www\\.omdbapi\\.com.+")));
+        repository.readAll().stream().map(convertor::convert).forEach(a -> assertThat(a.getImdbEpisode()).isNotNull());
     }
 
     @DataTableType
@@ -88,11 +87,17 @@ public class TVSeriesSteps {
                 .build();
 
     }
-    private void lostfilmStub(){
+
+    private void wiremockStub() {
         configureFor("localhost", 8089);
-        stubFor(get(urlMatching("/www.lostfilm.tv/rss.xml"))
+        stubFor(get(urlEqualTo("/www.lostfilm.tv/rss.xml"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withBodyFile("RSSs.xml")));
+        stubFor(get(urlMatching("/www\\.omdbapi\\.com.+"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type","application/json")
+                        .withBodyFile("imdb.json")));
     }
 }

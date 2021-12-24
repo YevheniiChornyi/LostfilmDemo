@@ -109,34 +109,5 @@ public class TVSeriesSteps {
 
     private void wiremockStub() {
         configureFor("localhost", 8089);
-        stubFor(get(urlEqualTo("/www.lostfilm.tv/rss.xml"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withBodyFile("RSSs.xml")));
-        stubFor(get(urlMatching("/www\\.omdbapi\\.com.+&t=Dix.+"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type","application/json")
-                        .withBodyFile("dix.json")));
-        stubFor(get(urlMatching("/www\\.omdbapi\\.com.+&t=True.+"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type","application/json")
-                        .withBodyFile("true_story.json")));
-        stubFor(get(urlMatching("/www\\.omdbapi\\.com.+t=Hellbound.+"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type","application/json")
-                        .withBodyFile("hellbound.json")));
-        stubFor(get(urlEqualTo("/www.omdbapi.com?apikey=3bb21e88&t=1883&Season=1&Episode=2"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type","application/json")
-                        .withBodyFile("1883_1_2.json")));
-        stubFor(get(urlEqualTo("/www.omdbapi.com?apikey=3bb21e88&t=1883&Season=1&Episode=1"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type","application/json")
-                        .withBodyFile("1883_1_1.json")));
     }
 }

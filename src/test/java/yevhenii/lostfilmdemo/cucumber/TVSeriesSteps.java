@@ -1,7 +1,6 @@
 package yevhenii.lostfilmdemo.cucumber;
 
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
+import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,12 +10,16 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
+import yevhenii.lostfilmdemo.convertors.TVRecordConvertor;
+import yevhenii.lostfilmdemo.entity.TVSeries;
 import yevhenii.lostfilmdemo.repository.impl.TVSeriesRepositoryImpl;
-import yevhenii.lostfilmdemo.services.impl.FeedServiceImpl;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,14 +27,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class TVSeriesSteps {
 
-    @Value ("${lostfilm.rss.url}")
-    private String url;
     @Autowired
     private TVSeriesRepositoryImpl repository;
     @Autowired
-    private FeedServiceImpl feedService;
-    @Autowired
     private Scheduler scheduler;
+    @Autowired
+    private TVRecordConvertor convertor;
 
     @ClassRule
     private final MySQLContainer<?> mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.24"))
@@ -39,15 +40,6 @@ public class TVSeriesSteps {
             .withUsername("root")
             .withPassword("root2021");
 
-    @Before
-    void init(){
-
-
-    }
-    @After
-    void close(){
-
-    }
     @Given("I go mock tv series sites")
     public void iGoMockTvSeriesSites()  {
         lostfilmStub();
@@ -64,22 +56,43 @@ public class TVSeriesSteps {
         verify((getRequestedFor(urlEqualTo("/www.lostfilm.tv/rss.xml"))));
     }
 
-    @And("put it into db")
-    public void putItIntoDb() {
-        assertThat(repository.readAll().size()).isGreaterThanOrEqualTo(15);
+
+
+
+    @And("put tvSeries into db:")
+    public void putTvSeriesIntoDb(List<TVSeries> seriesList) {
+        AtomicInteger count = new AtomicInteger();
+        repository.readAll().stream()
+                .map(convertor::convert)
+                .peek(a-> a.setImdbEpisode(null))
+                .forEach(a->assertThat(a)
+                        .isEqualTo(seriesList.get(count.getAndIncrement())));
+
     }
 
-    @And("send message, that we should find info from imdb and also put it to db")
-    public void sendMessageThatWeShouldFindInfoFromImdb() {
-        //TODO stub IMDB
+    @And("send message, that we should find info from imdb and also put updated tvSeries to db")
+    public void sendMessageThatWeShouldFindInfoFromImdbAndAlsoPutUpdatedTvSeriesToDb() {
+        repository.readAll().stream().map(convertor::convert).forEach(a-> assertThat(a.getImdbEpisode()).isNotNull());
+    }
+
+    @DataTableType
+    public TVSeries tvSeriesEntry(Map<String, String> entry) {
+        return TVSeries.builder()
+                .episode(Integer.parseInt(entry.get("episode")))
+                .season(Integer.parseInt(entry.get(("season"))))
+                .russianName(entry.get("russianName"))
+                .name(entry.get("name"))
+                .lastUpdate(entry.get("lastUpdate"))
+                .image(entry.get("image"))
+                .link(entry.get("link"))
+                .build();
+
     }
     private void lostfilmStub(){
         configureFor("localhost", 8089);
-        stubFor(get(urlMatching("rss.xml"))
+        stubFor(get(urlMatching("/www.lostfilm.tv/rss.xml"))
                 .willReturn(aResponse()
                         .withStatus(200)
-                        .withBodyFile("RSS.xml")));
+                        .withBodyFile("RSSs.xml")));
     }
-
-
 }

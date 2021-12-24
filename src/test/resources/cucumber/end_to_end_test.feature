@@ -13,4 +13,9 @@ Feature: TVSeries update
       | Hellbound       | Зов ада . 6 серия.               | static.lostfilm.top/Images/631/Posters/image.jpg | 1     | 6      | https://www.lostfilmtv1.site/mr/series/Hellbound/season_1/episode_6/    | Wed, 22 Dec 2021 19:21:25 +0000  |
       | 1883            | 1883 . 1883.                     | static.lostfilm.top/Images/634/Posters/image.jpg | 1     | 1      | https://www.lostfilmtv1.site/mr/series/1883/season_1/episode_1/         | Tue, 21 Dec 2021 20:59:00 +0000  |
     And send message, that we should find info from imdb and also put updated tvSeries to db
-
+      |title             |rating|year|plot|
+      |Behind Us, A Cliff|8.3   |2021|Thomas and Shea recruit James and some local cowboys to corral a herd of cattle.|
+      |N/A               |0.0   |0   |N/A|
+      |Episode #1.2      |0.0   |0   |N/A|
+      |Episode #1.6      |7.6   |2021|With detrimental information hanging over its head, The New Truth scrambles to protect its power by preventing the public from learning the truth.|
+      |1883              |8.3   |2021|The Dutton family embarks westward through the last bastion of untamed America.|

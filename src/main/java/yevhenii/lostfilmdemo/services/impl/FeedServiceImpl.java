@@ -39,7 +39,7 @@ public class FeedServiceImpl implements FeedService {
                     .map((a) -> converter.convert((Element) a))
                     .collect(Collectors.toList());
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new IllegalArgumentException("XML file access error", e);
+            throw new IllegalArgumentException("XML file access error: " + url, e);
         }
     }
 

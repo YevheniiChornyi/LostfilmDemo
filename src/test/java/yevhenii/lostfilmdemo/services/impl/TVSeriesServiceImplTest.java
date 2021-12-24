@@ -45,9 +45,10 @@ class TVSeriesServiceImplTest {
                 .name("name").season(2)
                 .link("link").build();
     }
+
     @BeforeEach
-    void initEach(){
-        service = new TVSeriesServiceImpl(repository,convertor,sender,topic);
+    void initEach() {
+        service = new TVSeriesServiceImpl(repository, convertor, sender, topic);
     }
 
     @Test

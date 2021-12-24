@@ -1,0 +1,79 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "url": "/www.lostfilm.tv/rss.xml"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "RSSs.xml"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/www\\.omdbapi\\.com.+&t=Dix.+"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "dix.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/www\\.omdbapi\\.com.+&t=True.+"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "true_story.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/www\\.omdbapi\\.com.+t=Hellbound.+"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "hellbound.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/www\\.omdbapi\\.com.+t=1883&Season=1&Episode=2"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "1883_1_2.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/www\\.omdbapi\\.com.+t=1883&Season=1&Episode=1"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "1883_1_1.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

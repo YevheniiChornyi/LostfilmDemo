@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import yevhenii.lostfilmdemo.entity.ImdbEpisodesDTO;
 
-@FeignClient(url = "https://www.omdbapi.com/", name = "omdb")
+@FeignClient(url = "${omdb.url}", name = "omdb")
 public interface ImdbClient {
 
     @GetMapping()

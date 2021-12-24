@@ -29,8 +29,7 @@ class TVSeriesRepositoryImplTest {
     private DSLContext context;
     @Autowired
     private TVSeriesRepositoryImpl repository;
-    private static final TVRecordConvertor recordConvertor =new TVRecordConvertor();
-
+    private static final TVRecordConvertor recordConvertor = new TVRecordConvertor();
 
 
     private static final List<TvSeriesRecord> seriesList = new ArrayList<>();
@@ -55,7 +54,7 @@ class TVSeriesRepositoryImplTest {
     }
 
     @BeforeEach
-    void fill(){
+    void fill() {
         seriesList.forEach(repository::create);
     }
 

@@ -19,7 +19,7 @@ public class TVSeriesConvertor implements Converter<FeedMessage, TVSeries> {
     public TVSeries convert(FeedMessage feedMessage) {
 
         return TVSeries.builder()
-                .russianName(getRussianName(feedMessage.getTitle()))
+                .russianName(getRussianName(feedMessage.getTitle()).trim())
                 .name(getName(feedMessage.getTitle()))
                 .image(getImage(feedMessage.getDescription()))
                 .lastUpdate(feedMessage.getPubDate())

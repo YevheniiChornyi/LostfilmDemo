@@ -12,6 +12,8 @@ services:
       - MYSQL_DATABASE=lostfilm
   wiremock:
     container_name: app_mock
+    volumes:
+      -  $PWD/src/test/resources:/home/wiremock
     ports:
       - "8089:8089"
     image: "wiremock/wiremock"

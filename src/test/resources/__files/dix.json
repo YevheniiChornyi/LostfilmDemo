@@ -1,1 +1,4 @@
-{"Response":"False","Error":"Series or episode not found!"}
+{
+  "Response": "False",
+  "Error": "Series or episode not found!"
+}

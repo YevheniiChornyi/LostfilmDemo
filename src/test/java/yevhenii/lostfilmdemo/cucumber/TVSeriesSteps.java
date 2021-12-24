@@ -41,14 +41,18 @@ public class TVSeriesSteps {
             .withUsername("root")
             .withPassword("root2021");
 
-    @Given("I go mock tv series sites")
+    @Given("I mocking Lostfilm RSS feed response")
     public void iGoMockTvSeriesSites() {
         wiremockStub();
     }
 
-    @When("I go to find new series")
-    public void iGoToLostfilmRss() throws SchedulerException, InterruptedException {
+    @When("I start scheduled process to retrieve series from Lostfilm")
+    public void iGoToLostfilmRss() throws SchedulerException {
         scheduler.triggerJob(new JobKey("lostfilm_job", Scheduler.DEFAULT_GROUP));
+    }
+
+    @And("I wait scheduled process to complete")
+    public void iWaitScheduledProcessToComplete() throws InterruptedException {
         Thread.sleep(5000);
     }
 
@@ -58,7 +62,7 @@ public class TVSeriesSteps {
     }
 
 
-    @And("put tvSeries into db:")
+    @And("I except following series in DB:")
     public void putTvSeriesIntoDb(List<TVSeries> seriesList) {
         AtomicInteger count = new AtomicInteger();
         repository.readAll().stream()
@@ -69,14 +73,15 @@ public class TVSeriesSteps {
 
     }
 
-    @And("send message, that we should find info from imdb and also put updated tvSeries to db")
+    @And("I expect following ImDB info to be populated:")
     public void sendMessageThatWeShouldFindInfoFromImdbAndAlsoPutUpdatedTvSeriesToDb(List<ImdbEpisodesDTO> dtos) {
         AtomicInteger count = new AtomicInteger(0);
         verify(getRequestedFor(urlMatching("/www\\.omdbapi\\.com.+")));
         repository.readAll().stream()
                 .map(convertor::convert)
                 .peek(a -> assertThat(a.getImdbEpisode()).isNotNull())
-                .forEach(a-> {assertThat(a.getImdbEpisode().getImdbRating()).isEqualTo(dtos.get(count.get()).getImdbRating());
+                .forEach(a -> {
+                    assertThat(a.getImdbEpisode().getImdbRating()).isEqualTo(dtos.get(count.get()).getImdbRating());
                     assertThat(a.getImdbEpisode().getYear()).isEqualTo(dtos.get(count.get()).getYear());
                     assertThat(a.getImdbEpisode().getTitle()).isEqualTo(dtos.get(count.get()).getTitle());
                     assertThat(a.getImdbEpisode().getPlot()).isEqualTo(dtos.get(count.getAndIncrement()).getPlot());
@@ -96,6 +101,7 @@ public class TVSeriesSteps {
                 .build();
 
     }
+
     @DataTableType
     public ImdbEpisodesDTO tvDto(Map<String, String> entry) {
         return ImdbEpisodesDTO.builder()
@@ -110,4 +116,6 @@ public class TVSeriesSteps {
     private void wiremockStub() {
         configureFor("localhost", 8089);
     }
+
+
 }

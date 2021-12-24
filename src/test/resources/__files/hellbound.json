@@ -1,5 +1,31 @@
-{"Title":"Episode #1.6","Year":"2021","Rated":"TV-MA","Released":"19 Nov 2021","Season":"1","Episode":"6","Runtime":"60 min","Genre":"Crime, Drama, Fantasy",
-  "Director":"Sang-ho Yeon","Writer":"Kyu-Seok Choi, Sang-ho Yeon","Actors":"Yoo Ah-in, Victoria Grace, Kim Hyun-joo",
-  "Plot":"With detrimental information hanging over its head, The New Truth scrambles to protect its power by preventing the public from learning the truth.",
-  "Language":"Korean","Country":"South Korea","Awards":"N/A","Poster":"N/A","Ratings":[{"Source":"Internet Movie Database","Value":"7.6/10"}],
-  "Metascore":"N/A","imdbRating":"7.6","imdbVotes":"334","imdbID":"tt14253474","seriesID":"t12235718","Type":"episode","Response":"True"}
+{
+  "Title": "Episode #1.6",
+  "Year": "2021",
+  "Rated": "TV-MA",
+  "Released": "19 Nov 2021",
+  "Season": "1",
+  "Episode": "6",
+  "Runtime": "60 min",
+  "Genre": "Crime, Drama, Fantasy",
+  "Director": "Sang-ho Yeon",
+  "Writer": "Kyu-Seok Choi, Sang-ho Yeon",
+  "Actors": "Yoo Ah-in, Victoria Grace, Kim Hyun-joo",
+  "Plot": "With detrimental information hanging over its head, The New Truth scrambles to protect its power by preventing the public from learning the truth.",
+  "Language": "Korean",
+  "Country": "South Korea",
+  "Awards": "N/A",
+  "Poster": "N/A",
+  "Ratings": [
+    {
+      "Source": "Internet Movie Database",
+      "Value": "7.6/10"
+    }
+  ],
+  "Metascore": "N/A",
+  "imdbRating": "7.6",
+  "imdbVotes": "334",
+  "imdbID": "tt14253474",
+  "seriesID": "t12235718",
+  "Type": "episode",
+  "Response": "True"
+}
